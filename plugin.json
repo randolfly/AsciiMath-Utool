@@ -1,0 +1,19 @@
+{
+	"name": "asciimath_editor",
+	"version": "1.0.0",
+	"pluginName": "AsciiMath编辑器",
+	"description": "使用AsciiMath语法编辑LaTeX数学公式",
+	"main": "index.html",
+	"logo": "logo.png",
+	"preload": "preload.js",
+	"features": [
+		{
+			"code": "asciimath_editor",
+			"explain": "AsciiMath Editor",
+			"cmds": [
+				"am",
+				"asciimath"
+			]
+		}
+	]
+}

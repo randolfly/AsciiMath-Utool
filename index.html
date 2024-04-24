@@ -1,0 +1,119 @@
+<!--
+ * @Author: randolf 1665718426@qq.com
+ * @Date: 2024-04-24 17:25:45
+ * @LastEditors: randolf
+ * @LastEditTime: 2024-04-24 18:40:31
+ * @FilePath: \AsciiMathPlugin\index.html
+ * @Description: 
+ * 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
+        integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"
+        integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd"
+        crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"
+        integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+    <style>
+        .input-field {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+        }
+
+        .input-field:focus {
+            box-shadow: 0 0 7px rgba(0, 0, 0, 0.12), 0 0 5px rgba(0, 0, 0, 0.24);
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="textInputGroup" style="display: flex; justify-content: space-between; align-items: center;">
+            <textarea id="asciiInput" placeholder="在此输入AsciiMath" class="input-field"></textarea>
+            <button id="copyButton" class="btn">COPY</button>
+        </div>
+        <div id="latexOutput" class="card-panel grey lighten-5"></div>
+        <div id="latexInput" class="card-panel grey lighten-5"></div>
+
+
+        <script>
+            var asciiInput = document.getElementById('asciiInput');
+            var copyButton = document.getElementById('copyButton');
+            var latexInput = document.getElementById('latexInput');
+            var latexOutput = document.getElementById('latexOutput');
+
+            asciiInput.addEventListener('input', function () {
+                var ascii = asciiInput.value;
+                var latex = window.am.toTex(ascii);
+                latexInput.textContent = latex;
+                try {
+                    katex.render(latex, latexOutput);
+                } catch (err) {
+                    latexOutput.textContent = err;
+                }
+            });
+
+            copyButton.addEventListener('click', function () {
+                // 使用 navigator.clipboard.writeText 将文本复制到剪贴板
+                navigator.clipboard.writeText(latexInput.textContent).then(function () {
+                    console.log('复制成功!');
+                }, function (err) {
+                    console.error('无法复制: ', err);
+                });
+            });
+        </script>
+    </div>
+
+
+    <!-- 引入Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</body>
+
+<footer class="page-footer teal lighten-2">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">AsciiMath Editor</h5>
+                <p class="grey-text text-lighten-4">AsciiMathParser 参考 <a class="grey-text text-lighten-3"
+                        href="https://github.com/widcardw/asciimath-parser">github</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2024 randolf.
+        </div>
+    </div>
+</footer>
+
+</html>
